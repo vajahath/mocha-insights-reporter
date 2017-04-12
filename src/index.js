@@ -45,9 +45,9 @@ function pencilReporter(runner) {
 	runner.on('end', function() {
 		var obj = {
 			stats: self.stats,
-			tests: tests.map(clean),
-			pending: pending.map(clean),
-			failures: failures.map(clean),
+			// tests: tests.map(clean),
+			// pending: pending.map(clean),
+			// failures: failures.map(clean),
 			passes: passes.map(clean)
 		};
 
