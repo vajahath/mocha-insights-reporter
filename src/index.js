@@ -31,7 +31,8 @@ function pencilReporter(runner) {
 	// });
 
 	runner.on('pass', function(test) {
-		passes.push(test);
+		// passes.push(test);
+		process.stdout.write(JSON.stringify(clean(test), null, 2));
 	});
 
 	// runner.on('fail', function(test) {
@@ -42,19 +43,19 @@ function pencilReporter(runner) {
 	// 	pending.push(test);
 	// });
 
-	runner.on('end', function() {
-		var obj = {
-			stats: self.stats,
-			// tests: tests.map(clean),
-			// pending: pending.map(clean),
-			// failures: failures.map(clean),
-			passes: passes.map(clean)
-		};
+	// runner.on('end', function() {
+	// 	var obj = {
+	// 		stats: self.stats,
+	// 		// tests: tests.map(clean),
+	// 		// pending: pending.map(clean),
+	// 		// failures: failures.map(clean),
+	// 		passes: passes.map(clean)
+	// 	};
 
-		runner.testResults = obj;
+	// 	runner.testResults = obj;
 
-		process.stdout.write(JSON.stringify(obj, null, 2));
-	});
+	// 	process.stdout.write(JSON.stringify(obj, null, 2));
+	// });
 }
 
 /**
