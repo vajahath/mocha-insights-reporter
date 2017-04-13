@@ -8,12 +8,10 @@ var fs = require('fs');
 var rootPath = require('app-root-path');
 var mkdirp = require('mkdirp');
 
-/**
- * Expose `JSON`.
- */
-
 exports = module.exports = pencilReporter;
+
 var writeStream;
+var fixer = '[';
 
 mkdirp(rootPath + '/insights/logs/', function(err) {
 	if (err) {
@@ -22,22 +20,13 @@ mkdirp(rootPath + '/insights/logs/', function(err) {
 		return;
 	}
 
-	writeStream = fs.createWriteStream(rootPath + '/insights/logs/' + Date.now() + '.log');
+	writeStream = fs.createWriteStream(rootPath + '/insights/logs/' + Date.now() + '.json');
 })
 
-/**
- * Initialize a new `JSON` reporter.
- *
- * @api public
- * @param {Runner} runner
- */
 function pencilReporter(runner) {
 	mocha.reporters.Base.call(this, runner);
 
 	var self = this;
-	// var tests = [];
-	// var pending = [];
-	// var failures = [];
 	var passes = [];
 
 	// runner.on('test end', function(test) {
@@ -46,8 +35,10 @@ function pencilReporter(runner) {
 
 	runner.on('pass', function(test) {
 		// passes.push(test);
-		writeStream.write(JSON.stringify(clean(test), null, 2));
-		process.stdout.write(JSON.stringify(clean(test), null, 2));
+		writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
+		if (fixer != ', ') {
+			fixer = ', ';
+		}
 	});
 
 	// runner.on('fail', function(test) {
@@ -58,19 +49,20 @@ function pencilReporter(runner) {
 	// 	pending.push(test);
 	// });
 
-	// runner.on('end', function() {
-	// 	var obj = {
-	// 		stats: self.stats,
-	// 		// tests: tests.map(clean),
-	// 		// pending: pending.map(clean),
-	// 		// failures: failures.map(clean),
-	// 		passes: passes.map(clean)
-	// 	};
+	runner.on('end', function() {
+		// var obj = {
+		// 	stats: self.stats,
+		// 	// tests: tests.map(clean),
+		// 	// pending: pending.map(clean),
+		// 	// failures: failures.map(clean),
+		// 	passes: passes.map(clean)
+		// };
 
-	// 	runner.testResults = obj;
+		// runner.testResults = obj;
 
-	// 	process.stdout.write(JSON.stringify(obj, null, 2));
-	// });
+		// process.stdout.write(JSON.stringify(obj, null, 2));
+		writeStream.write(']');
+	});
 }
 
 /**
