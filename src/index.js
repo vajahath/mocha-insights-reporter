@@ -4,12 +4,26 @@
  * Module dependencies.
  */
 var mocha = require('mocha');
+var fs = require('fs');
+var rootPath = require('app-root-path');
+var mkdirp = require('mkdirp');
 
 /**
  * Expose `JSON`.
  */
 
 exports = module.exports = pencilReporter;
+var writeStream;
+
+mkdirp(rootPath + '/insights/logs/', function(err) {
+	if (err) {
+		lme.e(err);
+		throw (err);
+		return;
+	}
+
+	writeStream = fs.createWriteStream(rootPath + '/insights/logs/' + Date.now() + '.log');
+})
 
 /**
  * Initialize a new `JSON` reporter.
@@ -32,6 +46,7 @@ function pencilReporter(runner) {
 
 	runner.on('pass', function(test) {
 		// passes.push(test);
+		writeStream.write(JSON.stringify(clean(test), null, 2));
 		process.stdout.write(JSON.stringify(clean(test), null, 2));
 	});
 
