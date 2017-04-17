@@ -72,7 +72,6 @@ function pencilReporter(runner) {
 
 	runner.on('end', function() {
 		writeStream.write(']');
-		console.log(JSON.stringify(fields));
 		fieldsStream.write(JSON.stringify(fields));
 	});
 }
