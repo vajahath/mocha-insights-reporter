@@ -27,8 +27,6 @@ function pencilReporter(runner) {
 	mocha.reporters.Base.call(this, runner);
 
 	var self = this;
-	var passes = [];
-
 	// runner.on('test end', function(test) {
 	// 	tests.push(test);
 	// });
