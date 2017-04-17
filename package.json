@@ -18,6 +18,7 @@
 	"homepage": "https://github.com/vajahath/pencil#readme",
 	"dependencies": {
 		"app-root-path": "^2.0.1",
+		"json2csv": "^3.7.3",
 		"lme": "^1.5.1",
 		"mkdirp": "^0.5.1",
 		"mocha": "^3.2.0"
