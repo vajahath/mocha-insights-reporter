@@ -14,8 +14,13 @@ fs.readdir(PATH + '/log/', function(err, items) {
 	// console.log(items.length);
 
 	items.forEach(function(item) {
+<<<<<<< HEAD
 		console.log('getting ' + PATH + '/' + item + ' ...')
 		bigArray = bigArray.concat(require(PATH + '/log/' + item));
+=======
+		console.log('getting ' + PATH + item + ' ...')
+		bigArray = bigArray.concat(require(PATH + '/' + item));
+>>>>>>> 751d2ac4d42f517c6215ae5e7c021d523375bdd5
 	});
 
 	try {
