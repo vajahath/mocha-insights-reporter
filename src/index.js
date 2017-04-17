@@ -7,11 +7,35 @@ var mocha = require('mocha');
 var fs = require('fs');
 var rootPath = require('app-root-path');
 var mkdirp = require('mkdirp');
+var lme = require('lme');
+
+var PATH = rootPath + '/insights';
+
+// get fields
+var fields;
+try {
+	fields = require(PATH + '/data/fields.json');
+} catch (err) {
+	fields = {
+		fields: []
+	}
+}
 
 exports = module.exports = pencilReporter;
 
 var writeStream;
+var fieldsStream;
 var fixer = '[';
+var fileName = Date.now();
+
+mkdirp(rootPath + '/insights/data/', function(e) {
+	if (e) {
+		lme.e(e);
+		throw (e);
+		return;
+	}
+	fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
+});
 
 mkdirp(rootPath + '/insights/log/', function(err) {
 	if (err) {
@@ -19,8 +43,7 @@ mkdirp(rootPath + '/insights/log/', function(err) {
 		throw (err);
 		return;
 	}
-
-	writeStream = fs.createWriteStream(rootPath + '/insights/log/' + Date.now() + '.json');
+	writeStream = fs.createWriteStream(rootPath + '/insights/log/' + fileName + '.json');
 })
 
 function pencilReporter(runner) {
@@ -49,6 +72,8 @@ function pencilReporter(runner) {
 
 	runner.on('end', function() {
 		writeStream.write(']');
+		console.log(JSON.stringify(fields));
+		fieldsStream.write(JSON.stringify(fields));
 	});
 }
 
@@ -61,12 +86,11 @@ function pencilReporter(runner) {
  * @return {Object}
  */
 function clean(test) {
+	addField(test.fullTitle());
 	return {
-		title: test.title,
-		fullTitle: test.fullTitle(),
-		duration: test.duration,
-		currentRetry: test.currentRetry(),
-		err: errorJSON(test.err || {})
+		file: fileName,
+		title: test.fullTitle(),
+		duration: test.duration
 	};
 }
 
@@ -83,4 +107,11 @@ function errorJSON(err) {
 		res[key] = err[key];
 	}, err);
 	return res;
+}
+
+// populate fields array
+function addField(item) {
+	if (fields.fields.indexOf(item) < 0) {
+		fields.fields.push(item);
+	}
 }

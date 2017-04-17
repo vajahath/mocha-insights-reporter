@@ -3,28 +3,54 @@
 const fs = require('fs');
 const rootPath = require('app-root-path');
 const toCSV = require('json2csv');
+const lme = require('lme');
 
-let bigArray = [];
+
 let writeStream;
 
 const PATH = rootPath + '/insights';
-const fields = ['title', 'fullTitle', 'duration', 'currentRetry', 'err'];
+var fields;
+
+try {
+	fields = require(PATH + '/data/fields.json').fields;
+} catch (err) {
+	lme.e("No fields file.");
+	lme.e("try running the tests with insights reporter");
+	process.exit(1);
+}
+
+var final = {
+	title: [], // headings
+};
 
 fs.readdir(PATH + '/log/', function(err, items) {
-	// console.log(items.length);
+	if (!items) {
+		lme.e('No logs found. Run tests with insights reporter.');
+		process.exit(1);
+	}
+	final.title = items;
 
 	items.forEach(function(item) {
 		console.log('getting ' + PATH + '/' + item + ' ...')
-		bigArray = bigArray.concat(require(PATH + '/log/' + item));
+		var data = require(PATH + '/log/' + item);
+
+		data.forEach(function(test) {
+			if (final[test.title]) {
+				final[test.title].push(test.duration);
+			} else {
+				final[test.title] = [test.duration];
+			}
+		})
 	});
 
-	try {
-		let result = toCSV({ data: bigArray, fields: fields });
-		if (result) {
-			writeStream = fs.createWriteStream(PATH + '/stats.xls');
-			writeStream.write(result);
-		}
-	} catch (err) {
-		console.log(err);
-	}
+	writeStream = fs.createWriteStream(PATH + '/stats.xls');
+
+	Object.keys(final).forEach(function(key) {
+		writeStream.write(key + ', ');
+		final[key].forEach(function(value) {
+			writeStream.write(value + ', ');
+		})
+		writeStream.write('\n');
+	})
+
 });
