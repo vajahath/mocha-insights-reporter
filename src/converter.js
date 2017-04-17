@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const rootPath = require('app-root-path');
 const toCSV = require('json2csv');
@@ -13,7 +15,7 @@ fs.readdir(PATH + '/log/', function(err, items) {
 
 	items.forEach(function(item) {
 		console.log('getting ' + PATH + item + ' ...')
-		bigArray = bigArray.concat(require(PATH + item));
+		bigArray = bigArray.concat(require(PATH + '/' + item));
 	});
 
 	try {

@@ -13,14 +13,14 @@ exports = module.exports = pencilReporter;
 var writeStream;
 var fixer = '[';
 
-mkdirp(rootPath + '/insights/logs/', function(err) {
+mkdirp(rootPath + '/insights/log/', function(err) {
 	if (err) {
 		lme.e(err);
 		throw (err);
 		return;
 	}
 
-	writeStream = fs.createWriteStream(rootPath + '/insights/logs/' + Date.now() + '.json');
+	writeStream = fs.createWriteStream(rootPath + '/insights/log/' + Date.now() + '.json');
 })
 
 function pencilReporter(runner) {
