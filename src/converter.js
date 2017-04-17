@@ -7,10 +7,9 @@ let writeStream;
 
 const PATH = rootPath + '/insights';
 const fields = ['title', 'fullTitle', 'duration', 'currentRetry', 'err'];
-writeStream = fs.createWriteStream(PATH + '/' + Date.now() + '.xls');
 
 fs.readdir(PATH + '/log/', function(err, items) {
-	console.log(items.length);
+	// console.log(items.length);
 
 	items.forEach(function(item) {
 		bigArray = bigArray.concat(require(PATH + item));
@@ -18,7 +17,10 @@ fs.readdir(PATH + '/log/', function(err, items) {
 
 	try {
 		let result = toCSV({ data: bigArray, fields: fields });
-		writeStream.write(result);
+		if (result) {
+			writeStream = fs.createWriteStream(PATH + '/stats.xls');
+			writeStream.write(result);
+		}
 	} catch (err) {
 		console.log(err);
 	}
