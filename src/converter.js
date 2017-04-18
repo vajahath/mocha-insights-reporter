@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
-const rootPath = require('app-root-path');
-const toCSV = require('json2csv');
 const lme = require('lme');
+var conf = require('./config');
 
+const PATH = conf.PATH;
 
 let writeStream;
-
-const PATH = rootPath + '/insights';
 var fields;
 
 try {
@@ -43,7 +41,7 @@ fs.readdir(PATH + '/log/', function(err, items) {
 		})
 	});
 
-	writeStream = fs.createWriteStream(PATH + '/stats.xls');
+	writeStream = fs.createWriteStream(PATH + '/' + conf.excel_file_name);
 
 	Object.keys(final).forEach(function(key) {
 		writeStream.write(key + ', ');

@@ -1,5 +1,7 @@
-// determine configurations
+'use strict'
 
+// determine configurations
+var lme = require('lme');
 var rootPath = require('app-root-path');
 
 var default_conf = require('./default-config.json');
@@ -14,5 +16,7 @@ try {
 
 // merge configs
 var config = Object.assign({}, default_conf, user_conf);
+
+config.PATH = rootPath + '/' + config.folder_name;
 
 module.exports = config;

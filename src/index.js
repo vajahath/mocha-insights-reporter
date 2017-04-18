@@ -5,11 +5,12 @@
  */
 var mocha = require('mocha');
 var fs = require('fs');
-var rootPath = require('app-root-path');
 var mkdirp = require('mkdirp');
 var lme = require('lme');
 
-var PATH = rootPath + '/insights';
+var conf = require('./config');
+
+var PATH = conf.PATH;
 
 // get fields
 var fields;
@@ -24,26 +25,24 @@ try {
 exports = module.exports = pencilReporter;
 
 var writeStream;
-var fieldsStream;
 var fixer = '[';
 var fileName = Date.now();
 
-mkdirp(rootPath + '/insights/data/', function(e) {
+mkdirp(PATH + '/data/', function(e) {
 	if (e) {
 		lme.e(e);
 		throw (e);
 		return;
 	}
-	fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
 });
 
-mkdirp(rootPath + '/insights/log/', function(err) {
+mkdirp(PATH + '/log/', function(err) {
 	if (err) {
 		lme.e(err);
 		throw (err);
 		return;
 	}
-	writeStream = fs.createWriteStream(rootPath + '/insights/log/' + fileName + '.json');
+	writeStream = fs.createWriteStream(PATH + '/log/' + fileName + '.json');
 })
 
 function pencilReporter(runner) {
@@ -72,7 +71,32 @@ function pencilReporter(runner) {
 
 	runner.on('end', function() {
 		writeStream.write(']');
-		fieldsStream.write(JSON.stringify(fields));
+
+		lme.i('processing...');
+		// check if the arry has duplicate test names
+		fields.sort();
+
+		var results = [];
+		for (var i = 0; i < fields.length - 1; i++) {
+			if (fields[i + 1] == fields[i]) {
+				results.push(fields[i]);
+			}
+		}
+
+		if (results.length != 0) {
+			lme.e("MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis");
+			results.forEach(function(item) {
+				lme.d(item);
+			})
+
+			// delete the log file
+			fs.unlink(PATH + '/log/' + fileName + '.json');
+
+		} else {
+			var fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
+			fieldsStream.write(JSON.stringify(fields));
+		}
+
 	});
 }
 
@@ -110,6 +134,7 @@ function errorJSON(err) {
 
 // populate fields array
 function addField(item) {
+	item = item.replace(/,/g, ' ~ ')
 	if (fields.fields.indexOf(item) < 0) {
 		fields.fields.push(item);
 	}
