@@ -24,6 +24,7 @@ try {
 
 exports = module.exports = pencilReporter;
 
+var fieldsStream;
 var writeStream;
 var fixer = '[';
 var fileName = Date.now();
@@ -34,6 +35,7 @@ mkdirp(PATH + '/data/', function(e) {
 		throw (e);
 		return;
 	}
+	fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
 });
 
 mkdirp(PATH + '/log/', function(err) {
@@ -72,17 +74,17 @@ function pencilReporter(runner) {
 	runner.on('end', function() {
 		writeStream.write(']');
 
-		lme.i('processing...');
+		lme.i('processing... ;)');
+
 		// check if the arry has duplicate test names
-		fields.sort();
+		fields.fields.sort();
 
 		var results = [];
-		for (var i = 0; i < fields.length - 1; i++) {
-			if (fields[i + 1] == fields[i]) {
-				results.push(fields[i]);
+		for (var i = 0; i < fields.fields.length - 1; i++) {
+			if (fields.fields[i + 1] == fields.fields[i]) {
+				results.push(fields.fields[i]);
 			}
 		}
-
 		if (results.length != 0) {
 			lme.e("MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis");
 			results.forEach(function(item) {
@@ -93,8 +95,8 @@ function pencilReporter(runner) {
 			fs.unlink(PATH + '/log/' + fileName + '.json');
 
 		} else {
-			var fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
 			fieldsStream.write(JSON.stringify(fields));
+			lme.i("OK");
 		}
 
 	});
