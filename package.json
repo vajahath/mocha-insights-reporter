@@ -1,6 +1,6 @@
 {
 	"name": "pencil",
-	"version": "1.0.18",
+	"version": "1.0.22",
 	"description": "",
 	"main": "src/index.js",
 	"scripts": {

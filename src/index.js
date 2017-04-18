@@ -74,7 +74,7 @@ function pencilReporter(runner) {
 	runner.on('end', function() {
 		writeStream.write(']');
 
-		lme.i('processing... ;)');
+		lme.i('processing...');
 
 		// check if the arry has duplicate test names
 		fields.fields.sort();
@@ -137,7 +137,5 @@ function errorJSON(err) {
 // populate fields array
 function addField(item) {
 	item = item.replace(/,/g, ' ~ ')
-	if (fields.fields.indexOf(item) < 0) {
-		fields.fields.push(item);
-	}
+	fields.fields.push(item);
 }
