@@ -1,10 +1,11 @@
 {
 	"name": "mocha-insights-reporter",
-	"version": "1.0.22",
+	"version": "1.0.23",
 	"description": "",
 	"main": "src/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"lint": "./node_modules/.bin/eslint . --fix",
+		"test": "./node_modules/.bin/mocha ./tests --recursive --reporter spec"
 	},
 	"repository": {
 		"type": "git",
