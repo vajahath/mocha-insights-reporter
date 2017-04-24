@@ -13,18 +13,20 @@ var conf = require('./config');
 var PATH = conf.PATH;
 
 // get fields
-var fields;
-try {
-	fields = require(PATH + '/data/fields.json');
-} catch (err) {
-	fields = {
-		fields: []
-	}
-}
+var fields = {
+	fields: []
+};
+// try {
+// 	fields = require(PATH + '/data/fields.json');
+// } catch (err) {
+// 	fields = {
+// 		fields: []
+// 	}
+// }
 
 exports = module.exports = insightsReporter;
 
-var fieldsStream;
+// var fieldsStream;
 var writeStream;
 var fixer = '[';
 var fileName = Date.now();
@@ -35,7 +37,7 @@ mkdirp(PATH + '/data/', function(e) {
 		throw (e);
 		return;
 	}
-	fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
+	// fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
 });
 
 mkdirp(PATH + '/log/', function(err) {
@@ -95,7 +97,7 @@ function insightsReporter(runner) {
 			fs.unlink(PATH + '/log/' + fileName + '.json');
 
 		} else {
-			fieldsStream.write(JSON.stringify(fields));
+			// fieldsStream.write(JSON.stringify(fields));
 			lme.i("OK");
 		}
 

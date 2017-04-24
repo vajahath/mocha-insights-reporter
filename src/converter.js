@@ -7,15 +7,15 @@ var conf = require('./config');
 var PATH = conf.PATH;
 
 var writeStream;
-var fields;
+// var fields;
 
-try {
-	fields = require(PATH + '/data/fields.json').fields;
-} catch (err) {
-	lme.e("No fields file.");
-	lme.e("try running the tests with insights reporter");
-	process.exit(1);
-}
+// try {
+// 	fields = require(PATH + '/data/fields.json').fields;
+// } catch (err) {
+// 	lme.e("No fields file.");
+// 	lme.e("try running the tests with insights reporter");
+// 	process.exit(1);
+// }
 
 var final = {
 	title: [], // headings
