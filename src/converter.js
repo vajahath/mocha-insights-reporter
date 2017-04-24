@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const lme = require('lme');
+var fs = require('fs');
+var lme = require('lme');
 var conf = require('./config');
 
-const PATH = conf.PATH;
+var PATH = conf.PATH;
 
-let writeStream;
+var writeStream;
 var fields;
 
 try {

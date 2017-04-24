@@ -86,7 +86,7 @@ function pencilReporter(runner) {
 			}
 		}
 		if (results.length != 0) {
-			lme.e("MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis");
+			lme.e("MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..");
 			results.forEach(function(item) {
 				lme.d(item);
 			})
