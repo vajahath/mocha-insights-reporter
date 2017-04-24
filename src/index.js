@@ -22,7 +22,7 @@ try {
 	}
 }
 
-exports = module.exports = pencilReporter;
+exports = module.exports = insightsReporter;
 
 var fieldsStream;
 var writeStream;
@@ -47,7 +47,7 @@ mkdirp(PATH + '/log/', function(err) {
 	writeStream = fs.createWriteStream(PATH + '/log/' + fileName + '.json');
 })
 
-function pencilReporter(runner) {
+function insightsReporter(runner) {
 	mocha.reporters.Base.call(this, runner);
 
 	var self = this;
