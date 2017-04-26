@@ -16,13 +16,6 @@ var PATH = conf.PATH;
 var fields = {
 	fields: []
 };
-// try {
-// 	fields = require(PATH + '/data/fields.json');
-// } catch (err) {
-// 	fields = {
-// 		fields: []
-// 	}
-// }
 
 exports = module.exports = insightsReporter;
 
@@ -30,15 +23,6 @@ exports = module.exports = insightsReporter;
 var writeStream;
 var fixer = '[';
 var fileName = Date.now();
-
-mkdirp(PATH + '/data/', function(e) {
-	if (e) {
-		lme.e(e);
-		throw (e);
-		return;
-	}
-	// fieldsStream = fs.createWriteStream(PATH + '/data/fields.json');
-});
 
 mkdirp(PATH + '/log/', function(err) {
 	if (err) {

@@ -1,7 +1,7 @@
 {
 	"name": "mocha-insights-reporter",
-	"version": "1.0.27",
-	"description": "",
+	"version": "1.0.27-beta.1",
+	"description": "Get Performance Insights Of Your App By Simply Testing It!",
 	"main": "src/index.js",
 	"scripts": {
 		"lint": "./node_modules/.bin/eslint . --fix",
@@ -14,8 +14,8 @@
 		"type": "git",
 		"url": "git+https://github.com/vajahath/pencil.git"
 	},
-	"author": "",
-	"license": "ISC",
+	"author": "Vajahath Ahmed <vajuoff.1@gmail.com> (http://twitter.com/vajahath7)",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/vajahath/pencil/issues"
 	},
