@@ -12,14 +12,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/vajahath/pencil.git"
+		"url": "git+https://github.com/vajahath/mocha-insights-reporter.git"
 	},
 	"author": "Vajahath Ahmed <vajuoff.1@gmail.com> (http://twitter.com/vajahath7)",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/vajahath/pencil/issues"
+		"url": "https://github.com/vajahath/mocha-insights-reporter/issues"
 	},
-	"homepage": "https://github.com/vajahath/pencil#readme",
+	"homepage": "https://github.com/vajahath/mocha-insights-reporter#readme",
 	"dependencies": {
 		"app-root-path": "^2.0.1",
 		"json2csv": "^3.7.3",
