@@ -11,6 +11,7 @@ var lme = require('lme');
 var conf = require('./config');
 
 var PATH = conf.PATH;
+var COMA_REPLACE = conf.coma_replacer;
 
 // get fields
 var fields = {
@@ -100,7 +101,7 @@ function clean(test) {
 	addField(test.fullTitle());
 	return {
 		file: fileName,
-		title: test.fullTitle(),
+		title: test.fullTitle().replace(/,/g, COMA_REPLACE),
 		duration: test.duration
 	};
 }
@@ -122,6 +123,6 @@ function errorJSON(err) {
 
 // populate fields array
 function addField(item) {
-	item = item.replace(/,/g, ' ~ ')
+	item = item.replace(/,/g, COMA_REPLACE)
 	fields.fields.push(item);
 }
