@@ -29,7 +29,7 @@ fs.readdir(PATH + '/log/', function(err, items) {
 	final.title = items;
 
 	items.forEach(function(item) {
-		console.log('getting ' + PATH + '/' + item + ' ...')
+		lme.s('getting ' + PATH + '/' + item + ' ...');
 		var data = require(PATH + '/log/' + item);
 
 		data.forEach(function(test) {
@@ -38,7 +38,7 @@ fs.readdir(PATH + '/log/', function(err, items) {
 			} else {
 				final[test.title] = [test.duration];
 			}
-		})
+		});
 	});
 
 	writeStream = fs.createWriteStream(PATH + '/' + conf.excel_file_name);
@@ -47,8 +47,8 @@ fs.readdir(PATH + '/log/', function(err, items) {
 		writeStream.write(key + ', ');
 		final[key].forEach(function(value) {
 			writeStream.write(value + ', ');
-		})
+		});
 		writeStream.write('\n');
-	})
+	});
 
 });

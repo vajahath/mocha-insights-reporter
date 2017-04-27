@@ -32,12 +32,11 @@ mkdirp(PATH + '/log/', function(err) {
 		return;
 	}
 	writeStream = fs.createWriteStream(PATH + '/log/' + fileName + '.json');
-})
+});
 
 function insightsReporter(runner) {
 	mocha.reporters.Base.call(this, runner);
 
-	var self = this;
 	// runner.on('test end', function(test) {
 	// 	tests.push(test);
 	// });
@@ -73,17 +72,17 @@ function insightsReporter(runner) {
 			}
 		}
 		if (results.length != 0) {
-			lme.e("MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..");
+			lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
 			results.forEach(function(item) {
 				lme.d(item);
-			})
+			});
 
 			// delete the log file
 			fs.unlink(PATH + '/log/' + fileName + '.json');
 
 		} else {
 			// fieldsStream.write(JSON.stringify(fields));
-			lme.i("mocha-insights log generated");
+			lme.i('mocha-insights log generated');
 		}
 
 	});
@@ -106,23 +105,8 @@ function clean(test) {
 	};
 }
 
-/**
- * Transform `error` into a JSON object.
- *
- * @api private
- * @param {Error} err
- * @return {Object}
- */
-function errorJSON(err) {
-	var res = {};
-	Object.getOwnPropertyNames(err).forEach(function(key) {
-		res[key] = err[key];
-	}, err);
-	return res;
-}
-
 // populate fields array
 function addField(item) {
-	item = item.replace(/,/g, COMA_REPLACE)
+	item = item.replace(/,/g, COMA_REPLACE);
 	fields.fields.push(item);
 }
