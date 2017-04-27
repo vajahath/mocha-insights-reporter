@@ -17,6 +17,6 @@ try {
 // merge configs
 var config = Object.assign({}, default_conf, user_conf);
 
-config.PATH = rootPath + '/' + config.folder_name;
+config.PATH = config.path_to_folder;
 
 module.exports = config;

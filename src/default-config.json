@@ -1,5 +1,5 @@
 {
-	"folder_name": "insights",
+	"path_to_folder": null,
 	"excel_file_name": "insight.xls",
 	"coma_replacer": " ~ "
 }
