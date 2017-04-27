@@ -82,7 +82,7 @@ function insightsReporter(runner) {
 
 		} else {
 			// fieldsStream.write(JSON.stringify(fields));
-			lme.i("OK");
+			lme.i("mocha-insights log generated");
 		}
 
 	});
