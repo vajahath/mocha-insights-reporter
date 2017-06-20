@@ -13,6 +13,8 @@ let final = {
 	title: [] // headings
 }
 
+let erredFiles = [];
+
 getDirectories()
 	.then(dirs => {
 		dirs.forEach(dir => {
@@ -29,7 +31,13 @@ getDirectories()
 				files.forEach(file => {
 					file = path.join(dir, file);
 					lme.s('getting ' + file);
-					let data = require(file);
+					let data = {};
+					try {
+						data = require(file);
+					} catch (err) {
+						lme.e(err);
+						erredFiles.push(file);
+					}
 
 					data.forEach(function(test) {
 						if (final[test.title]) {
