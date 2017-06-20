@@ -26,7 +26,6 @@ function insightsReporter(runner) {
 
 	runner.on('pass', function(test) {
 		// passes.push(test);
-		console.log("passing");
 		writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
 		if (fixer != ', ') {
 			fixer = ', ';
