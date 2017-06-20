@@ -1,19 +1,9 @@
 const fs = require('fs');
-const getFilename = require('./file-namer');
-const Promise = require('bluebird');
+const filename = require('./file-namer');
 
-let writeStream = {};
+let writeStream = fs.createWriteStream(filename);
 
-module.exports = () => {
-	return new Promise((resolve, reject) => {
-		getFilename()
-			.then(filename => {
-				writeStream = fs.createWriteStream(filename);
-				resolve({
-					writeStream: writeStream,
-					filename: filename
-				});
-			})
-			.catch(err => (reject(err)));
-	})
+module.exports = {
+	writeStream,
+	filename
 }

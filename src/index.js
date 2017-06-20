@@ -4,7 +4,7 @@
 const mocha = require('mocha');
 const lme = require('lme');
 
-const getWriteStream = require('./write-stream');
+const { filename, writeStream } = require('./write-stream');
 const conf = require('./config');
 const COMA_REPLACE = conf.coma_replacer;
 
@@ -12,16 +12,6 @@ const COMA_REPLACE = conf.coma_replacer;
 const fields = {
 	fields: []
 };
-
-// initialize write stream
-let writeStream = {};
-let filename = '';
-getWriteStream()
-	.then(stream => {
-		writeStream = stream.writeStream;
-		filename = stream.filename;
-	})
-	.catch(err => { throw err });
 
 exports = module.exports = insightsReporter;
 
@@ -36,6 +26,7 @@ function insightsReporter(runner) {
 
 	runner.on('pass', function(test) {
 		// passes.push(test);
+		console.log("passing");
 		writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
 		if (fixer != ', ') {
 			fixer = ', ';
