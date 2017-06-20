@@ -1,38 +1,31 @@
-'use strict';
-
 /**
  * Module dependencies.
  */
-var mocha = require('mocha');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var lme = require('lme');
+const mocha = require('mocha');
+const lme = require('lme');
 
-var conf = require('./config');
+const getWriteStream = require('./write-stream');
+const conf = require('./config');
+const COMA_REPLACE = conf.coma_replacer;
 
-var PATH = conf.PATH;
-var COMA_REPLACE = conf.coma_replacer;
-
-// get fields
-var fields = {
+// store fields
+const fields = {
 	fields: []
 };
 
+// initialize write stream
+let writeStream = {};
+let filename = '';
+getWriteStream()
+	.then(stream => {
+		writeStream = stream.writeStream;
+		filename = stream.filename;
+	})
+	.catch(err => { throw err });
+
 exports = module.exports = insightsReporter;
 
-// var fieldsStream;
-var writeStream;
-var fixer = '[';
-var fileName = Date.now();
-
-mkdirp(PATH + '/log/', function(err) {
-	if (err) {
-		lme.e(err);
-		throw (err);
-		return;
-	}
-	writeStream = fs.createWriteStream(PATH + '/log/' + fileName + '.json');
-});
+let fixer = '[';
 
 function insightsReporter(runner) {
 	mocha.reporters.Base.call(this, runner);
@@ -59,32 +52,9 @@ function insightsReporter(runner) {
 
 	runner.on('end', function() {
 		writeStream.write(']');
-
+		writeStream.end();
 		lme.i('processing...');
-
-		// check if the arry has duplicate test names
-		fields.fields.sort();
-
-		var results = [];
-		for (var i = 0; i < fields.fields.length - 1; i++) {
-			if (fields.fields[i + 1] == fields.fields[i]) {
-				results.push(fields.fields[i]);
-			}
-		}
-		if (results.length != 0) {
-			lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
-			results.forEach(function(item) {
-				lme.d(item);
-			});
-
-			// delete the log file
-			fs.unlink(PATH + '/log/' + fileName + '.json');
-
-		} else {
-			// fieldsStream.write(JSON.stringify(fields));
-			lme.i('mocha-insights log generated');
-		}
-
+		duplicationCheck();
 	});
 }
 
@@ -109,4 +79,29 @@ function clean(test) {
 function addField(item) {
 	item = item.replace(/,/g, COMA_REPLACE);
 	fields.fields.push(item);
+}
+
+function duplicationCheck() {
+	// check if the arry has duplicate test names
+	fields.fields.sort();
+
+	let results = [];
+	for (let i = 0; i < fields.fields.length - 1; i++) {
+		if (fields.fields[i + 1] == fields.fields[i]) {
+			results.push(fields.fields[i]);
+		}
+	}
+	if (results.length != 0) {
+		lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
+		results.forEach(function(item) {
+			lme.d(item);
+		});
+
+		// delete the log file
+		fs.unlinkSync(filename);
+
+	} else {
+		// fieldsStream.write(JSON.stringify(fields));
+		lme.i('mocha-insights log generated');
+	}
 }
