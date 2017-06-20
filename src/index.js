@@ -92,6 +92,8 @@ function duplicationCheck() {
 
 	} else {
 		// fieldsStream.write(JSON.stringify(fields));
-		lme.i('mocha-insights log generated');
+		console.log('+------------------------------+')
+		console.log('| mocha-insights log generated |')
+		console.log('+------------------------------+')
 	}
 }
