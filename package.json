@@ -1,6 +1,6 @@
 {
 	"name": "mocha-insights-reporter",
-	"version": "1.0.27-beta.5",
+	"version": "1.0.27-beta.6",
 	"description": "Get Performance Insights Of Your App By Simply Testing It!",
 	"main": "src/index.js",
 	"scripts": {
