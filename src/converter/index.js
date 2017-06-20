@@ -37,6 +37,7 @@ getDirectories()
 					} catch (err) {
 						lme.e(err);
 						erredFiles.push(file);
+						return;
 					}
 
 					data.forEach(function(test) {
