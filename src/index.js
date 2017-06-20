@@ -60,7 +60,7 @@ function insightsReporter(runner) {
 function clean(test) {
 	addField(test.fullTitle());
 	return {
-		file: fileName,
+		file: filename,
 		title: test.fullTitle().replace(/,/g, COMA_REPLACE),
 		duration: test.duration
 	};
