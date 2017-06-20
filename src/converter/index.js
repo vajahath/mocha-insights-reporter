@@ -60,6 +60,11 @@ getDirectories()
 				});
 			})
 		})
+		if (erredFiles.length) {
+			lme.e('There are some files skipped due to err. Details are given below');
+			lme.line();
+			lme.h(erredFiles)
+		}
 	})
 	.catch(err => {
 		console.log(err);
