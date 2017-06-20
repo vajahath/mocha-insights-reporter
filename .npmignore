@@ -1,0 +1,9 @@
+.vscode/
+mocha-insights/
+node_modules/
+.editorconfig
+.eslintignore
+.eslintrc.yml
+.gitignore
+.npmignore
+.travis.yml

@@ -1,4 +1,4 @@
-# Mocha-insights-reporter
+# mocha-insights-reporter
 A pluggable Mocha reporter that give insights on the app performance based on duration of tests.
 
 ### This package is in beta!
