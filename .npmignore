@@ -1,6 +1,7 @@
 .vscode/
 mocha-insights/
 node_modules/
+media/
 .editorconfig
 .eslintignore
 .eslintrc.yml
