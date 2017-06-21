@@ -91,7 +91,6 @@ function duplicationCheck() {
 		fs.unlinkSync(filename);
 
 	} else {
-		// fieldsStream.write(JSON.stringify(fields));
 		console.log('+------------------------------+')
 		console.log('| mocha-insights log generated |')
 		console.log('+------------------------------+')
