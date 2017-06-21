@@ -39,11 +39,11 @@ npm install --save-dev mocha mocha-insights-reporter mocha-multi
  - create or modify your `test` and `insights` tag under the `scripts` section as follows.
  ```json
  "scripts": {
-		...
+		....
 		"test": "./node_modules/.bin/mocha ./tests --recursive --reporter mocha-multi --reporter-options spec=-,mocha-insights-reporter=-",
 		"insights": "./node_modules/.bin/mocha-insights",
-         ...
-	}
+         ....
+}
  ```
 > Note that `mocha-insights-reporter` needs to output end result to the console. So please use `... mocha-insights-reporter=-` while using with `mocha-multi`.
 
