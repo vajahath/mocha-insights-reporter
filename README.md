@@ -62,6 +62,6 @@ To know more about how `mocha-multi` works, please refer their doc.
  to generate report in the excel format at `./mocha-insights/` folder.
 
 
- ## Licence
+## Licence
 
  MIT &copy; [Vajahath Ahmed](https://twitter.com/vajahath7)
