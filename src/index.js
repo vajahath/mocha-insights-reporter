@@ -3,6 +3,7 @@
  */
 const mocha = require('mocha');
 const lme = require('lme');
+const fs = require('fs');
 
 const { filename, writeStream } = require('./write-stream');
 const conf = require('./config');
@@ -91,8 +92,8 @@ function duplicationCheck() {
 		fs.unlinkSync(filename);
 
 	} else {
-		console.log('+------------------------------+')
-		console.log('| mocha-insights log generated |')
-		console.log('+------------------------------+')
+		console.log('+------------------------------+');
+		console.log('| mocha-insights log generated |');
+		console.log('+------------------------------+');
 	}
 }

@@ -13,6 +13,6 @@ module.exports = () => {
 		fs.readdir(logPath, (err, dirs) => {
 			if (err) reject(err);
 			else resolve(dirs);
-		})
-	})
-}
+		});
+	});
+};
