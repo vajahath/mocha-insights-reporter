@@ -7,4 +7,4 @@ import dirPath from './directory-maker';
 
 const gottenUsername = username.sync();
 
-export default path.join(dirPath, username + '-' + new Date().toJSON() + '.json');
+export default path.join(dirPath, gottenUsername + '-' + new Date().toJSON() + '.json');
