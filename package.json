@@ -4,8 +4,8 @@
 	"description": "Get Performance Insights Of Your App By Simply Testing It!",
 	"main": "src/index.js",
 	"scripts": {
-		"lint": "./node_modules/.bin/eslint . --fix",
-		"test": "./node_modules/.bin/mocha ./tests --recursive --reporter spec"
+		"build": "./node_modules/.bin/tsc",
+		"lint": ""
 	},
 	"bin": {
 		"mocha-insights": "./src/converter/index.js"
@@ -36,6 +36,7 @@
 		"@types/mkdirp": "^0.3.29",
 		"@types/node": "^8.0.5",
 		"@types/username": "^1.0.28",
+		"tslint": "^5.4.3",
 		"typescript": "^2.4.1"
 	}
 }
