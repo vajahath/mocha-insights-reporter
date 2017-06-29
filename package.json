@@ -5,7 +5,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"build": "./node_modules/.bin/tsc",
-		"lint": ""
+		"lint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json -t stylish ./src/**/*.ts"
 	},
 	"bin": {
 		"mocha-insights": "./src/converter/index.js"
