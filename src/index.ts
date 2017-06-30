@@ -4,27 +4,28 @@
 import * as mocha from 'mocha';
 import * as lme from 'lme';
 import * as fs from 'fs';
+import * as chalk from 'chalk';
 
-import {filename, writeStream} from './write-stream';
+import { filename, writeStream } from './write-stream';
 import conf from './config';
 
 const COMA_REPLACE = conf.coma_replacer;
 
 // store fields
-const fields:any = {
+const fields: any = {
 	fields: []
 };
 
 let fixer = '[';
 
-export = function insightsReporter(runner:any) {
+export = function insightsReporter(runner: any) {
 	mocha.reporters.Base.call(this, runner);
 
 	// runner.on('test end', function(test) {
 	// 	tests.push(test);
 	// });
 
-	runner.on('pass', function(test:object) {
+	runner.on('pass', function (test: object) {
 		// passes.push(test);
 		writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
 		if (fixer != ', ') {
@@ -40,7 +41,7 @@ export = function insightsReporter(runner:any) {
 	// 	pending.push(test);
 	// });
 
-	runner.on('end', function() {
+	runner.on('end', function () {
 		writeStream.write(']');
 		writeStream.end();
 		lme.i('processing...');
@@ -56,7 +57,7 @@ export = function insightsReporter(runner:any) {
  * @param {Object} test
  * @return {Object}
  */
-function clean(test:any) {
+function clean(test: any) {
 	addField(test.fullTitle());
 	return {
 		file: filename,
@@ -66,7 +67,7 @@ function clean(test:any) {
 }
 
 // populate fields array
-function addField(item:string) {
+function addField(item: string) {
 	item = item.replace(/,/g, COMA_REPLACE);
 	fields.fields.push(item);
 }
@@ -82,8 +83,10 @@ function duplicationCheck() {
 		}
 	}
 	if (results.length != 0) {
-		lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
-		results.forEach(function(item) {
+		console.log('\n\n' + chalk.red('MOCHA-INSIGHTS ERR:'));
+		console.log('Duplicate test titles found. So ignoring this test for analysis: see below for duplicates..');
+		console.log('--------------------------------');
+		results.forEach(function (item) {
 			lme.d(item);
 		});
 
@@ -91,8 +94,6 @@ function duplicationCheck() {
 		fs.unlinkSync(filename);
 
 	} else {
-		lme.d('+------------------------------+');
-		lme.d('| mocha-insights log generated |');
-		lme.d('+------------------------------+');
+		console.log('\n' + chalk.cyan('\u2713') + chalk.gray(' mocha-insights log generated'))
 	}
 }
