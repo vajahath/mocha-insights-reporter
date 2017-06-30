@@ -17,7 +17,7 @@ const fields:any = {
 
 let fixer = '[';
 
-export default function insightsReporter(runner:any) {
+export = function insightsReporter(runner:any) {
 	mocha.reporters.Base.call(this, runner);
 
 	// runner.on('test end', function(test) {

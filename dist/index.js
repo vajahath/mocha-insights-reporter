@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Module dependencies.
  */
@@ -14,32 +13,6 @@ const fields = {
     fields: []
 };
 let fixer = '[';
-function insightsReporter(runner) {
-    mocha.reporters.Base.call(this, runner);
-    // runner.on('test end', function(test) {
-    // 	tests.push(test);
-    // });
-    runner.on('pass', function (test) {
-        // passes.push(test);
-        write_stream_1.writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
-        if (fixer != ', ') {
-            fixer = ', ';
-        }
-    });
-    // runner.on('fail', function(test) {
-    // 	failures.push(test);
-    // });
-    // runner.on('pending', function(test) {
-    // 	pending.push(test);
-    // });
-    runner.on('end', function () {
-        write_stream_1.writeStream.write(']');
-        write_stream_1.writeStream.end();
-        lme.i('processing...');
-        duplicationCheck();
-    });
-}
-exports.default = insightsReporter;
 /**
  * Return a plain-object representation of `test`
  * free of cyclic properties etc.
@@ -84,4 +57,29 @@ function duplicationCheck() {
         lme.d('+------------------------------+');
     }
 }
+module.exports = function insightsReporter(runner) {
+    mocha.reporters.Base.call(this, runner);
+    // runner.on('test end', function(test) {
+    // 	tests.push(test);
+    // });
+    runner.on('pass', function (test) {
+        // passes.push(test);
+        write_stream_1.writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
+        if (fixer != ', ') {
+            fixer = ', ';
+        }
+    });
+    // runner.on('fail', function(test) {
+    // 	failures.push(test);
+    // });
+    // runner.on('pending', function(test) {
+    // 	pending.push(test);
+    // });
+    runner.on('end', function () {
+        write_stream_1.writeStream.write(']');
+        write_stream_1.writeStream.end();
+        lme.i('processing...');
+        duplicationCheck();
+    });
+};
 //# sourceMappingURL=index.js.map
