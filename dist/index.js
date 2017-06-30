@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 const mocha = require("mocha");
-const lme = require("lme");
 const fs = require("fs");
+const chalk = require("chalk");
 const write_stream_1 = require("./write-stream");
 const config_1 = require("./config");
 const COMA_REPLACE = config_1.default.coma_replacer;
@@ -44,17 +44,18 @@ function duplicationCheck() {
         }
     }
     if (results.length != 0) {
-        lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
+        console.log('\n' + chalk.red('MOCHA-INSIGHTS ERR:'));
+        console.log('Duplicate test titles found.\nSo ignoring this test for analysis.\nsee below for duplicates..');
+        console.log('-----------------------------------');
         results.forEach(function (item) {
-            lme.d(item);
+            console.log(chalk.red('>') + ' ' + item);
         });
+        console.log('\n');
         // delete the log file
         fs.unlinkSync(write_stream_1.filename);
     }
     else {
-        lme.d('+------------------------------+');
-        lme.d('| mocha-insights log generated |');
-        lme.d('+------------------------------+');
+        console.log(chalk.cyan('\u2713') + chalk.gray(' mocha-insights log generated') + '\n');
     }
 }
 module.exports = function insightsReporter(runner) {
@@ -78,7 +79,6 @@ module.exports = function insightsReporter(runner) {
     runner.on('end', function () {
         write_stream_1.writeStream.write(']');
         write_stream_1.writeStream.end();
-        lme.i('processing...');
         duplicationCheck();
     });
 };

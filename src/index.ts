@@ -2,7 +2,6 @@
  * Module dependencies.
  */
 import * as mocha from 'mocha';
-import * as lme from 'lme';
 import * as fs from 'fs';
 import * as chalk from 'chalk';
 
@@ -44,7 +43,6 @@ export = function insightsReporter(runner: any) {
 	runner.on('end', function () {
 		writeStream.write(']');
 		writeStream.end();
-		lme.i('processing...');
 		duplicationCheck();
 	});
 }
@@ -83,17 +81,18 @@ function duplicationCheck() {
 		}
 	}
 	if (results.length != 0) {
-		console.log('\n\n' + chalk.red('MOCHA-INSIGHTS ERR:'));
-		console.log('Duplicate test titles found. So ignoring this test for analysis: see below for duplicates..');
-		console.log('--------------------------------');
+		console.log('\n' + chalk.red('MOCHA-INSIGHTS ERR:'));
+		console.log('Duplicate test titles found.\nSo ignoring this test for analysis.\nsee below for duplicates..');
+		console.log('-----------------------------------');
 		results.forEach(function (item) {
-			lme.d(item);
+			console.log(chalk.red('>') + ' ' + item);
 		});
+		console.log('\n');
 
 		// delete the log file
 		fs.unlinkSync(filename);
 
 	} else {
-		console.log('\n' + chalk.cyan('\u2713') + chalk.gray(' mocha-insights log generated'))
+		console.log(chalk.cyan('\u2713') + chalk.gray(' mocha-insights log generated') + '\n')
 	}
 }
