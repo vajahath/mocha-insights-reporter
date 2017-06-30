@@ -1,31 +1,30 @@
 /**
  * Module dependencies.
  */
-const mocha = require('mocha');
-const lme = require('lme');
-const fs = require('fs');
+import * as mocha from 'mocha';
+import * as fs from 'fs';
+import * as chalk from 'chalk';
 
-const { filename, writeStream } = require('./write-stream');
-const conf = require('./config');
+import { filename, writeStream } from './write-stream';
+import conf from './config';
+
 const COMA_REPLACE = conf.coma_replacer;
 
 // store fields
-const fields = {
+const fields: any = {
 	fields: []
 };
 
-exports = module.exports = insightsReporter;
-
 let fixer = '[';
 
-function insightsReporter(runner) {
+export = function insightsReporter(runner: any) {
 	mocha.reporters.Base.call(this, runner);
 
 	// runner.on('test end', function(test) {
 	// 	tests.push(test);
 	// });
 
-	runner.on('pass', function(test) {
+	runner.on('pass', function (test: object) {
 		// passes.push(test);
 		writeStream.write(fixer + JSON.stringify(clean(test), null, 2));
 		if (fixer != ', ') {
@@ -41,10 +40,9 @@ function insightsReporter(runner) {
 	// 	pending.push(test);
 	// });
 
-	runner.on('end', function() {
+	runner.on('end', function () {
 		writeStream.write(']');
 		writeStream.end();
-		lme.i('processing...');
 		duplicationCheck();
 	});
 }
@@ -57,7 +55,7 @@ function insightsReporter(runner) {
  * @param {Object} test
  * @return {Object}
  */
-function clean(test) {
+function clean(test: any) {
 	addField(test.fullTitle());
 	return {
 		file: filename,
@@ -67,7 +65,7 @@ function clean(test) {
 }
 
 // populate fields array
-function addField(item) {
+function addField(item: string) {
 	item = item.replace(/,/g, COMA_REPLACE);
 	fields.fields.push(item);
 }
@@ -83,17 +81,18 @@ function duplicationCheck() {
 		}
 	}
 	if (results.length != 0) {
-		lme.e('MOCHA-INSIGHTS ERR: duplicate test titles. So ignoring this test for analysis: see below for duplicates..');
-		results.forEach(function(item) {
-			lme.d(item);
+		console.log('\n' + chalk.red('MOCHA-INSIGHTS ERR:'));
+		console.log('Duplicate test titles found.\nSo ignoring this test for analysis.\nsee below for duplicates..');
+		console.log('-----------------------------------');
+		results.forEach(function (item) {
+			console.log(chalk.red('>') + ' ' + item);
 		});
+		console.log('\n');
 
 		// delete the log file
 		fs.unlinkSync(filename);
 
 	} else {
-		console.log('+------------------------------+');
-		console.log('| mocha-insights log generated |');
-		console.log('+------------------------------+');
+		console.log(chalk.cyan('\u2713') + chalk.gray(' mocha-insights log generated') + '\n')
 	}
 }

@@ -1,8 +1,8 @@
 // determine configurations
-const lme = require('lme');
-const rootPath = require('app-root-path');
+import * as lme from 'lme';
+import * as rootPath from 'app-root-path';
+import default_conf from './default-config';
 
-const default_conf = require('./default-config.json');
 let user_conf = {};
 
 try {
@@ -13,6 +13,7 @@ try {
 }
 
 // merge configs
-const config = Object.assign({}, default_conf, user_conf);
 
-module.exports = config;
+const config: any = Object.assign({}, default_conf, user_conf);
+
+export default config;

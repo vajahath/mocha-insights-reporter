@@ -1,31 +1,30 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const rootPath = require('app-root-path') + '';
-const path = require('path');
-const lme = require('lme');
+import * as fs from 'fs';
+import * as rootPath from 'app-root-path';
+import * as path from 'path';
+import * as lme from 'lme';
 
-const conf = require('./../config');
+import conf from './../config';
+import getDirectories from './directories';
 
-const getDirectories = require('./directories');
-
-let final = {
+let final:any = {
 	title: [] // headings
 };
 
-let dirCounter = 0;
-let fileCounter = 0;
+let dirCounter:number = 0;
+let fileCounter:number = 0;
 
-let erredFiles = [];
+let erredFiles:any[] = [];
 
 getDirectories()
-	.then(dirs => {
+	.then((dirs:string[]) => {
 		dirCounter = dirs.length;
-		dirs.forEach(dir => {
+		dirs.forEach((dir:string) => {
 			dirCounter--;
 			let env = dir;
-			dir = path.join(rootPath, conf.folder_name, 'logs', dir);
-			fs.readdir(dir, (err, files) => {
+			dir = path.join(rootPath+'', conf.folder_name, 'logs', dir);
+			fs.readdir(dir, (err:object, files:string[]) => {
 				if (err) throw err;
 				if (files.length === 0) throw new Error('No logs found. Run tests with insights reporter.');
 				fileCounter = files.length;
@@ -34,10 +33,10 @@ getDirectories()
 				final.title = files;
 
 				// get each files
-				files.forEach(file => {
+				files.forEach((file:string) => {
 					file = path.join(dir, file);
 					lme.s('getting ' + file);
-					let data = {};
+					let data:any[];
 					try {
 						data = require(file);
 						fileCounter--;
@@ -64,11 +63,11 @@ getDirectories()
 					}
 				});
 
-				let writeStream = fs.createWriteStream(path.join(rootPath, conf.folder_name, `${env}-insights.xls`));
+				let writeStream = fs.createWriteStream(path.join(rootPath+'', conf.folder_name, `${env}-insights.xls`));
 
-				Object.keys(final).forEach(function(key) {
+				Object.keys(final).forEach((key)=>{
 					writeStream.write(key + ', ');
-					final[key].forEach(function(value) {
+					final[key].forEach(function(value:number) {
 						writeStream.write(value + ', ');
 					});
 					writeStream.write('\n');

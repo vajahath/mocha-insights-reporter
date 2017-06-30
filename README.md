@@ -3,8 +3,6 @@ A pluggable Mocha reporter that give insights on the app performance based on du
 
 > This package is in Beta, but I invite you to give this a try and [submit your ideas](https://github.com/vajahath/mocha-insights-reporter/issues).
 
-> currently it expected to support only higher versions of node. (6.4 or greater)
-
 ![](./media/mocha-insights.png)
 
 ## The idea
@@ -61,7 +59,6 @@ To know more about how `mocha-multi` works, please refer their doc.
  npm run insights
  ```
  to generate report in the excel format at `./mocha-insights/` folder.
-
 
 ## Licence
 
