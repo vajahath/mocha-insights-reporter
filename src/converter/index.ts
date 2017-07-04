@@ -7,6 +7,7 @@ import * as lme from 'lme';
 
 import conf from './../config';
 import getDirectories from './directories';
+import {makeTasks} from './console-interface';
 
 let final:any = {
 	title: [] // headings
