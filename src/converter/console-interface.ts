@@ -1,7 +1,9 @@
 import Listr = require('listr');
 import * as Promise from 'bluebird';
+import * as Progress from 'progress';
 
 let allTasks;
+let progressBar;
 
 export function makeTasks(files:string[]){
     let tasks:object[] = [];
@@ -21,4 +23,14 @@ export function makeTasks(files:string[]){
 	    console.error(err);
     });
     return final;
+}
+
+export function makeProgress(dirname:string, total:number){
+    progressBar = new Progress(` > Getting Insights - ${dirname} [:bar]`, {
+    complete: '=',
+    incomplete: ' ',
+    width: 20,
+    total: total
+  })
+  return progressBar;
 }
